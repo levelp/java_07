@@ -18,5 +18,7 @@ public interface IStorage {
 
     Collection<Resume> getAllSorted();
 
+    Collection<Resume> searchByName(String query);
+
     int size();
 }

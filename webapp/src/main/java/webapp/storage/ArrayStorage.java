@@ -4,12 +4,12 @@ import webapp.WebAppException;
 import webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * User: gkislin
- * Date: 24.06.2014
+ * Храним резюме в массиве в памяти 
  */
 public class ArrayStorage extends AbstractStorage<Integer> {
 
@@ -69,6 +69,15 @@ public class ArrayStorage extends AbstractStorage<Integer> {
     public List<Resume> doGetAll() {
         List<Resume> list = new LinkedList<>();
         for (Resume r : ARRAY) if (r != null) list.add(r);
+        return list;
+    }
+
+    @Override
+    public Collection<Resume> searchByName(String query) {
+        List<Resume> list = new LinkedList<>();
+        for (Resume r : ARRAY)
+            if (r != null && r.satisfyByName(query))
+                list.add(r);
         return list;
     }
 

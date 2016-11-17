@@ -1,7 +1,9 @@
 <%@ page import="webapp.Config" %>
 <%@ page import="webapp.model.ContactType" %>
 <%@ page import="webapp.model.Resume" %>
+<%@ page import="webapp.storage.IStorage" %>
 <%@ page import="webapp.web.HtmlUtil" %>
+<%@ page import="java.util.Collection" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -11,6 +13,14 @@
 </head>
 <body>
 <header>Список всех резюме</header>
+<%
+    // Получаем запрос на поиск если он есть
+    String query = request.getParameter("s");
+    IStorage storage = Config.getStorage();
+    Collection<Resume> resumeToShow =
+            (query == null) ? storage.getAllSorted() : storage.searchByName(query);
+%>
+
 <section>
     <table>
         <tr>
@@ -29,7 +39,8 @@
                         <th><%=HtmlUtil.EMPTY_TD%>
                         </th>
                     </tr>
-                    <% for (Resume r : Config.getStorage().getAllSorted()) { %>
+                    <%
+                        for (Resume r : resumeToShow) { %>
                     <tr>
                         <td>
                             <a href="resume?uuid=<%=r.getUuid()%>&action=view"><%=r.getFullName()%>

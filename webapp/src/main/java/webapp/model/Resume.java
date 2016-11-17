@@ -17,9 +17,8 @@ import java.util.UUID;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Resume implements Comparable<Resume>, Serializable {
-    static final long serialVersionUID = 1L;
-
     public static final Resume EMPTY;
+    static final long serialVersionUID = 1L;
 
     static {
         EMPTY = new Resume();
@@ -29,8 +28,14 @@ public class Resume implements Comparable<Resume>, Serializable {
     }
 
     private String uuid;
+
     private String fullName;
+
     private String location;
+
+    /**
+     * Контакты, которые сохраняются в Базу данных
+     */
     private Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
     private Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
@@ -148,5 +153,15 @@ public class Resume implements Comparable<Resume>, Serializable {
 
     public void createUuid() {
         this.uuid = UUID.randomUUID().toString();
+    }
+
+    /**
+     * Подходит ли резюме под поисковый запрос
+     *
+     * @param query запрос
+     * @return подходит ли?
+     */
+    public boolean satisfyByName(String query) {
+        return getFullName().toUpperCase().contains(query.toUpperCase());
     }
 }

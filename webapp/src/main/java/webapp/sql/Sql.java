@@ -18,7 +18,7 @@ public class Sql {
              PreparedStatement ps = conn.prepareStatement(sql)) {
             return executor.execute(ps);
         } catch (SQLException e) {
-            throw new WebAppException("SQL failed", e);
+            throw new WebAppException("SQL failed: " + sql, e);
         }
     }
 

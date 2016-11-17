@@ -5,16 +5,24 @@ import webapp.model.Resume;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-
+/**
+ * Хранение данных в файлах
+ */
 abstract public class FileStorage extends AbstractStorage<File> {
 
     private File dir;
+    private String ext;
 
-    public FileStorage(String path) {
+    public FileStorage(String path, String ext) {
         this.dir = new File(path);
+        this.ext = ext;
+        if (!dir.exists())
+            if (dir.mkdirs())
+                throw new IllegalArgumentException("Cann't create '" + path + "'");
         if (!dir.isDirectory() || !dir.canWrite())
             throw new IllegalArgumentException("'" + path + "' is not directory or is not writable");
     }
@@ -34,7 +42,7 @@ abstract public class FileStorage extends AbstractStorage<File> {
     protected Resume read(File file) {
         try {
             Resume r = doRead(new FileInputStream(file));
-            r.setUuid(file.getName());
+            r.setUuid(fileNameWithOutExt(file.getName()));
             return r;
         } catch (IOException e) {
             throw new WebAppException("Couldn't read file " + file.getAbsolutePath(), e);
@@ -43,7 +51,7 @@ abstract public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected File getCtx(String uuid) {
-        return new File(dir, uuid);
+        return new File(dir, uuid + "." + ext);
     }
 
     @Override
@@ -65,7 +73,7 @@ abstract public class FileStorage extends AbstractStorage<File> {
     @Override
     protected void doSave(File file, Resume r) {
         try {
-            file.createNewFile();
+            assert file.createNewFile();
         } catch (IOException e) {
             throw new WebAppException("Couldn't create file " + file.getAbsolutePath(), r, e);
         }
@@ -97,7 +105,29 @@ abstract public class FileStorage extends AbstractStorage<File> {
     }
 
     @Override
+    public Collection<Resume> searchByName(String query) {
+        File[] files = dir.listFiles();
+        if (files == null) return Collections.emptyList();
+        List<Resume> list = new ArrayList<>(files.length);
+        for (File file : files) {
+            Resume resume = read(file);
+            // Если имя содержит искомую строку
+            if (resume.getFullName().toUpperCase().contains(
+                    query.toUpperCase()))
+                list.add(resume);
+        }
+        return list;
+    }
+
+    @Override
     public int size() {
-        return dir.list().length;
+        File[] list = dir.listFiles((dir1, name) -> {
+            return name.endsWith("." + ext);
+        });
+        return list.length;
+    }
+
+    String fileNameWithOutExt(String x) {
+        return x.replaceFirst("[.][^.]+$", "");
     }
 }

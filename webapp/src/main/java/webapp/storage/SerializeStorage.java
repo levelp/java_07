@@ -6,12 +6,11 @@ import webapp.model.Resume;
 import java.io.*;
 
 /**
- * User: gkislin
- * Date: 25.04.2014
+ * Стандартная сериализация/десериализация (в файл и из файла)
  */
 public class SerializeStorage extends FileStorage {
     public SerializeStorage(String path) {
-        super(path);
+        super(path, "ser");
     }
 
     @Override
@@ -29,4 +28,5 @@ public class SerializeStorage extends FileStorage {
             throw new WebAppException("Error read resume", e);
         }
     }
+
 }

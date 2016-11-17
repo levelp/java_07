@@ -42,7 +42,7 @@ public class VolatileTest extends Assert {
         System.out.println("volatileCounter = " + volatileCounter);
         System.out.println("atomicInteger = " + atomicInteger);
 
-        assertTrue(counter < volatileCounter);
+        assertTrue(counter < atomicInteger.get());
         assertTrue(volatileCounter < atomicInteger.get());
     }
 }

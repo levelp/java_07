@@ -7,16 +7,17 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 /**
- * User: gkislin
- * Date: 07.07.2014
+ * Храним резюме в XML-файлах
  */
 public class XmlStorage extends FileStorage {
     private JaxbParser xmlParser;
 
     public XmlStorage(String path) {
-        super(path);
-        xmlParser = new JaxbParser(Resume.class, Organization.class, Link.class,
-                OrganizationSection.class, TextSection.class, Period.class);
+        super(path, "xml");
+        xmlParser = new JaxbParser(Resume.class,
+                Organization.class, Link.class,
+                OrganizationSection.class,
+                TextSection.class, Period.class);
     }
 
     @Override
@@ -32,4 +33,5 @@ public class XmlStorage extends FileStorage {
             return xmlParser.unmarshall(r);
         }
     }
+
 }

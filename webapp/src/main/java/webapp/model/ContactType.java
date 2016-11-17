@@ -1,9 +1,5 @@
 package webapp.model;
 
-/**
- * User: gkislin
- * Date: 05.02.14
- */
 public enum ContactType {
     PHONE("Тел."),
     MOBILE("Мобильный"),
@@ -20,7 +16,14 @@ public enum ContactType {
             return "<a href='mailto:" + value + "'>" + value + "</a>";
         }
     },
-    ICQ("ICQ");
+    ICQ("ICQ"),
+    VK("ВКонтакте") {
+        @Override
+        public String toHtml(String value) {
+            String link = "https://vk.com/" + value;
+            return "<a href='" + link + "'>" + link + "</a>";
+        }
+    };
 
     private String title;
 

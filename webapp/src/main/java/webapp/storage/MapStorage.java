@@ -2,10 +2,7 @@ package webapp.storage;
 
 import webapp.model.Resume;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * User: gkislin
@@ -53,6 +50,16 @@ public class MapStorage extends AbstractStorage<String> {
     @Override
     protected List<Resume> doGetAll() {
         return new ArrayList<>(MAP.values());
+    }
+
+    @Override
+    public Collection<Resume> searchByName(String query) {
+        ArrayList<Resume> result = new ArrayList<>();
+        for (Resume resume : MAP.values()) {
+            if (resume.satisfyByName(query))
+                result.add(resume);
+        }
+        return result;
     }
 
     @Override

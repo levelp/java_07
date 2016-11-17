@@ -20,9 +20,19 @@ public class Config {
     public static final IStorage XML_STORAGE;
 
     static {
-        String webappRoot = null; //System.getenv("WEBAPP_ROOT");
+        String webappRoot = System.getenv("WEBAPP_ROOT");
+        if (webappRoot == null) {
+            try {
+                webappRoot = new File(".").getCanonicalPath();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("webappRoot = " + webappRoot);
         try {
-            webappRoot = new File("webapp").getParentFile().getCanonicalPath();
+            webappRoot = new File(webappRoot).getCanonicalPath();
+            System.out.println("Получаем путь в стандартном формате: " +
+                    "webappRoot = " + webappRoot);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,13 +41,23 @@ public class Config {
         }
         File webappRootDir = new File(webappRoot);
         Properties props = new Properties();
-        try (FileInputStream webappProps = new FileInputStream(new File(webappRootDir, "config/webapp.properties"));
-             FileInputStream logProps = new FileInputStream(new File(webappRootDir, "config/logging.properties"))) {
+        try (FileInputStream webappProps = new FileInputStream(
+                new File(webappRootDir, "config/webapp.properties"));
+             FileInputStream logProps = new FileInputStream(
+                     new File(webappRootDir, "config/logging.properties"))) {
 
+            System.out.println("Читаем настройки для логов");
             LogManager.getLogManager().readConfiguration(logProps);
 
+            System.out.println("Читаем обшие настройки приложения");
             props.load(webappProps);
             DIR_STORAGE = props.getProperty("dir.storage");
+            System.out.println("Файлы приложение будет хранить в каталоге \""
+                    + DIR_STORAGE + "\"");
+            File dirStorage = new File(DIR_STORAGE);
+            if (!dirStorage.exists()) {
+                assert dirStorage.mkdir();
+            }
             DB_URL = props.getProperty("db.url");
             DB_USER = props.getProperty("db.user");
             DB_PASSWORD = props.getProperty("db.password");
@@ -51,6 +71,6 @@ public class Config {
     }
 
     public static IStorage getStorage() {
-        return SQL_STORAGE;
+        return XML_STORAGE;
     }
 }

@@ -4,11 +4,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import webapp.Config;
 import webapp.WebAppException;
-import webapp.model.ContactType;
-import webapp.model.Resume;
+import webapp.model.*;
 
 import java.util.Arrays;
+import java.util.Calendar;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -17,34 +18,28 @@ import static org.junit.Assert.assertEquals;
 public class StorageTest {
 
     public static final String STORAGE_DIR = "file_storage";
-    static IStorage storage;
+    static IStorage storage = Config.XML_STORAGE;
     private static Resume R1, R2, R3;
-
-    // Default
-    static {
-        storage = new ArrayStorage();
-    }
 
     @BeforeClass
     public static void beforeClass() {
-        R1 = new Resume("Полное Имя1", "location1");
+        R1 = new Resume("Иванов Иван Иванович",
+                "Санкт-Петербург");
         R1.addContact(ContactType.MAIL, "mail1@ya.ru");
         R1.addContact(ContactType.PHONE, "11111");
-
-/*
 
         R1.addSection(SectionType.ACHIEVEMENT, "Achivment11", "Achivment12");
         R1.addSection(SectionType.OBJECTIVE, "Objective1");
         R1.addSection(SectionType.EXPERIENCE,
                 new Organization("Organization11", null,
                         new Period(2005, Calendar.JANUARY, 2008, Calendar.DECEMBER, "position1", "content1"),
-                        new Period(2001, Calendar.MARCH, 2005, Calendar.JANUARY,"position2", "content2")),
+                        new Period(2001, Calendar.MARCH, 2005, Calendar.JANUARY, "position2", "content2")),
                 new Organization("Organization12", "Url11"));
-*/
 
         R2 = new Resume("Полное Имя2", null);
         R2.addContact(ContactType.SKYPE, "skype2");
         R2.addContact(ContactType.PHONE, "22222");
+
         R3 = new Resume("Полное Имя3", null);
     }
 

@@ -18,7 +18,7 @@ public class DirectConnection implements ConnectionFactory {
         try {
             // Загружаем драйвер для PostgreSQL
             Class.forName("org.postgresql.Driver").newInstance();
-            System.out.println("Driver loaded!");
+            System.out.println("PostgreSQL driver loaded!");
         } catch (Exception e) {
             System.out.println("Driver initialization exception: " + e.getMessage());
             throw new WebAppException("Driver initialization exception", e);
