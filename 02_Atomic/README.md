@@ -1,4 +1,8 @@
 <!-- doc.py -->
+atomic
+------
+Классы из пакета java.util.concurrent.atomic обеспечивают
+выполнение атомарных операций
 ``` java
 public class AtomicDemo {
     static final Object LOCK = new Object();
@@ -59,4 +63,46 @@ public class AtomicDemo {
 ```
 
 [src/main/java/AtomicDemo.java](src/main/java/AtomicDemo.java)
+
+1. Загрузить из памяти
+2. Поменять значение
+3. Записать в память
+Подождём оба потока
+Какое же значение переменной?
+[src/main/java/SyncThread.java](src/main/java/SyncThread.java)
+
+1. Загрузить из памяти
+2. Поменять значение
+3. Записать в память
+Подождём оба потока
+Какое же значение переменной?
+[src/main/java/SyncThread2.java](src/main/java/SyncThread2.java)
+
+1. Загрузить из памяти
+2. Поменять значение
+3. Записать в память
+Подождём оба потока
+Какое же значение переменной?
+[src/main/java/SyncThread3.java](src/main/java/SyncThread3.java)
+
+1. Загрузить из памяти
+2. Поменять значение
+3. Записать в память
+Подождём оба потока
+Какое же значение переменной?
+[src/main/java/SyncThread4.java](src/main/java/SyncThread4.java)
+
+1. Загрузить из памяти
+2. Поменять значение
+3. Записать в память
+Подождём оба потока
+Какое же значение переменной?
+[src/main/java/SyncThread5.java](src/main/java/SyncThread5.java)
+
+Страртуем 10000 потоков на increment
+Поток пусть поспит случайное время
+Подождём теперь 10 секунд
+Страртуем 10000 потоков на increment
+Подождём теперь 10 секунд
+[src/test/java/SyncronizedTest.java](src/test/java/SyncronizedTest.java)
 

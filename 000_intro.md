@@ -8,7 +8,6 @@ https://github.com/levelp/JavaFX.git
 
 Dependency Injection
 --------------------
-
 Принципы DI, реализация вручную, использование Spring: 
 https://github.com/levelp/dependency_injection
 
